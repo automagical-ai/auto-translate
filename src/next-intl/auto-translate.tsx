@@ -1,7 +1,7 @@
 "use client"
 
-import { useLocale, useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
+import { useLocale, useTranslations } from "next-intl"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { LoadingText } from "../components/loading-text"

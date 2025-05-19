@@ -12,17 +12,26 @@
         "./next-intl": "./dist/next-intl.js",
         "./next-intl/server": "./dist/next-intl/server.js"
     },
-    "files": ["src", "dist"],
+    "files": [
+        "src",
+        "dist"
+    ],
     "scripts": {
         "build": "tsup --clean --dts",
         "dev": "tsc-watch --onSuccess 'biome check --fix'",
         "prepublishOnly": "rm -rf dist && tsup --clean --dts"
     },
-    "keywords": ["typescript", "react", "automagical", "ai", "auto-translate"],
+    "keywords": [
+        "typescript",
+        "react",
+        "automagical",
+        "ai",
+        "auto-translate"
+    ],
     "author": "Automagical AI",
     "license": "MIT",
     "devDependencies": {
-        "@biomejs/biome": "1.9.4",
+        "@biomejs/biome": "2.0.0-beta.5",
         "@types/node": "^22.15.19",
         "@types/react": "^19.1.4",
         "@types/react-dom": "^19.1.5",

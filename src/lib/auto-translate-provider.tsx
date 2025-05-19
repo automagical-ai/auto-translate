@@ -1,6 +1,6 @@
 "use client"
 
-import { type ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { createContext, type ReactNode, useContext, useEffect, useState } from "react"
 import { TranslationToast } from "../components/translation-toast"
 
 interface AutoTranslateContextType {
@@ -27,16 +27,13 @@ export function AutoTranslateProvider({
     const [isCheckingTranslations, setIsCheckingTranslations] = useState(false)
 
     // Check translations whenever the locales array changes (or on initial mount)
-    // biome-ignore lint/correctness/useExhaustiveDependencies:
+    // biome-ignore lint/correctness/useExhaustiveDependencies: Check translations on initial mount and when locales change
     useEffect(() => {
-        console.log("checkTranslations")
-
         const checkTranslations = async () => {
             setIsCheckingTranslations(true)
 
             try {
                 await fetch("/api/auto-translate/check-translations")
-                console.log("Translations checked successfully")
             } catch (error) {
                 console.error("Error checking translations:", error)
             }

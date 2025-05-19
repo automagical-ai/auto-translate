@@ -1,13 +1,12 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+    "$schema": "https://biomejs.dev/schemas/2.0.0-beta.5/schema.json",
     "vcs": {
         "enabled": true,
         "clientKind": "git",
-        "useIgnoreFile": true,
-        "defaultBranch": "main"
+        "useIgnoreFile": true
     },
     "files": {
-        "ignore": ["./src/components/ui/**"]
+        "includes": ["**", "!**/*.css"]
     },
     "formatter": {
         "indentStyle": "space",
@@ -20,6 +19,24 @@
                 "noSvgWithoutTitle": "off",
                 "useGenericFontNames": "off"
             },
+            "correctness": {
+                "noUnusedFunctionParameters": "off",
+                "useHookAtTopLevel": "off"
+            },
+            "style": {
+                "noNonNullAssertion": "off",
+                "noDescendingSpecificity": "off",
+                "useSelfClosingElements": {
+                    "fix": "safe",
+                    "level": "info",
+                    "options": {}
+                },
+                "useNodejsImportProtocol": "off",
+                "useTemplate": {
+                    "fix": "safe",
+                    "level": "info"
+                }
+            },
             "suspicious": {
                 "noArrayIndexKey": "off",
                 "noDoubleEquals": {
@@ -27,21 +44,6 @@
                     "level": "warn",
                     "options": {}
                 }
-            },
-            "style": {
-                "noNonNullAssertion": "off",
-                "useSelfClosingElements": {
-                    "fix": "safe",
-                    "level": "warn"
-                },
-                "useTemplate": {
-                    "fix": "safe",
-                    "level": "warn"
-                },
-                "useNodejsImportProtocol": "off"
-            },
-            "correctness": {
-                "noUnusedImports": "info"
             },
             "nursery": {
                 "useSortedClasses": {
