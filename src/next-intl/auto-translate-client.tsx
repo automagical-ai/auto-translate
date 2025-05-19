@@ -1,7 +1,7 @@
 "use client"
 
 import { useLocale, useTranslations } from "next-intl"
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import { LoadingText } from "../components/loading-text"
 import type { AutoTranslateProps } from "./auto-translate"
 
@@ -17,16 +17,28 @@ export function AutoTranslateClient({
     const t = useTranslations()
     const translationKey = resolvedNamespace ? `${resolvedNamespace}.${tKey}` : tKey
 
-    // If the translation exists, or we're not in development, render string immediately
-    if (t.has(translationKey) || process.env.NODE_ENV !== "development") {
+    useEffect(() => {
+        console.log({ translationKey })
+    }, [translationKey])
+
+    const defaultLocale = process.env.NEXT_PUBLIC_DEFAULT_LOCALE ?? "en"
+
+    const needsTranslation =
+        !t.has(translationKey) || (locale === defaultLocale && t(translationKey) !== message)
+
+    if (process.env.NODE_ENV !== "development" || !needsTranslation) {
         return t.has(translationKey) ? t(translationKey) : message
     }
 
-    console.log("client message: ", message)
-
     return (
         <Suspense>
-            {t.has(translationKey) ? t(translationKey) : <LoadingText>{message}</LoadingText>}
+            {needsTranslation ? (
+                <LoadingText>{t.has(translationKey) ? t(translationKey) : message}</LoadingText>
+            ) : t.has(translationKey) ? (
+                t(translationKey)
+            ) : (
+                message
+            )}
         </Suspense>
     )
 }

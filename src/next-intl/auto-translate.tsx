@@ -12,6 +12,7 @@ export interface AutoTranslateProps {
 export function AutoTranslate({ children: message, tKey, ...props }: AutoTranslateProps) {
     const resolvedTKey = tKey ?? createMessageKey(message)
 
+    console.log(resolvedTKey, process.env)
     return isClient ? (
         <AutoTranslateClient tKey={resolvedTKey} {...props}>
             {message}
