@@ -1,10 +1,12 @@
 "use client"
 
-import { type ReactNode, createContext, useContext, useEffect } from "react"
+import { type ReactNode, createContext, useContext, useEffect, useState } from "react"
+import { TranslationToast } from "../components/translation-toast"
 
 interface AutoTranslateContextType {
     defaultLocale: string
     locales: string[]
+    isCheckingTranslations: boolean
 }
 
 const AutoTranslateContext = createContext<AutoTranslateContextType | undefined>(undefined)
@@ -22,26 +24,33 @@ export function AutoTranslateProvider({
 }: AutoTranslateProviderProps) {
     if (process.env.NODE_ENV !== "development") return children
 
+    const [isCheckingTranslations, setIsCheckingTranslations] = useState(false)
+
     // Check translations whenever the locales array changes (or on initial mount)
     // biome-ignore lint/correctness/useExhaustiveDependencies:
     useEffect(() => {
         console.log("checkTranslations")
 
         const checkTranslations = async () => {
+            setIsCheckingTranslations(true)
+
             try {
                 await fetch("/api/auto-translate/check-translations")
                 console.log("Translations checked successfully")
             } catch (error) {
                 console.error("Error checking translations:", error)
             }
+
+            setIsCheckingTranslations(false)
         }
 
         checkTranslations()
     }, [locales])
 
     return (
-        <AutoTranslateContext.Provider value={{ defaultLocale, locales }}>
+        <AutoTranslateContext.Provider value={{ defaultLocale, locales, isCheckingTranslations }}>
             {children}
+            <TranslationToast isLoading={isCheckingTranslations} />
         </AutoTranslateContext.Provider>
     )
 }
@@ -64,4 +73,16 @@ export function useLocales() {
     }
 
     return context.locales
+}
+
+export function useTranslationStatus() {
+    const context = useContext(AutoTranslateContext)
+
+    if (context === undefined) {
+        throw new Error("useTranslationStatus must be used within an AutoTranslateProvider")
+    }
+
+    return {
+        isCheckingTranslations: context.isCheckingTranslations
+    }
 }
