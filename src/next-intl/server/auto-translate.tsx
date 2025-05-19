@@ -15,11 +15,7 @@ export function AutoTranslate({ children: message, namespace, tKey }: AutoTransl
     }
 
     return (
-        <AutoTranslateClient
-            namespace={resolvedNamespace}
-            tKey={resolvedTKey}
-            inferNamespace={false}
-        >
+        <AutoTranslateClient namespace={resolvedNamespace} tKey={tKey} inferNamespace={false}>
             {message}
         </AutoTranslateClient>
     )

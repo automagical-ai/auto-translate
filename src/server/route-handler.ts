@@ -1,5 +1,6 @@
 import type { AutoTranslateConfig } from "../types"
 import { checkTranslations } from "./check-translations"
+import { deleteMessage } from "./delete-message"
 import { translateMessage } from "./translate-message"
 
 export function routeHandler({
@@ -17,6 +18,8 @@ export function routeHandler({
             return checkTranslations({ request, config })
         case "translate-message":
             return translateMessage({ request, config })
+        case "delete-message":
+            return deleteMessage({ request, config })
         default:
             return Response.json({ error: "Not found" }, { status: 404 })
     }

@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
+
 import { LoadingText } from "../components/loading-text"
 import { createMessageKey } from "../lib/create-message-key"
 
@@ -62,7 +63,19 @@ export function AutoTranslate({
         isTranslatingRef.current = true
         setIsTranslating(true)
 
-        fetch(`/api/auto-translate/translate-message?key=${resolvedTKey}&message=${message}`)
+        if (prevMessage !== message && !tKey) {
+            const prevMessageKey = createMessageKey(prevMessage)
+            const translationKey = resolvedNamespace
+                ? `${resolvedNamespace}.${prevMessageKey}`
+                : prevMessageKey
+
+            // delete the message
+            await fetch(`/api/auto-translate/delete-message?key=${translationKey}`)
+        }
+
+        await fetch(
+            `/api/auto-translate/translate-message?key=${translationKey}&message=${message}`
+        )
 
         isTranslatingRef.current = false
         setIsTranslating(false)
