@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useNodejsImportProtocol:
 import { createHash } from "crypto"
 
 export function createMessageKey(message: string) {

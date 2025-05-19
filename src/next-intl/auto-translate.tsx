@@ -1,7 +1,7 @@
-import { useLocale, useTranslations } from "next-intl"
 import { createMessageKey } from "../lib/create-message-key"
 import { isClient } from "../lib/utils"
-import { getCachedNamespace } from "./namespace-cache"
+import { AutoTranslateClient } from "./auto-translate-client"
+import { AutoTranslateServer } from "./auto-translate-server"
 
 export interface AutoTranslateProps {
     children: string
@@ -9,18 +9,16 @@ export interface AutoTranslateProps {
     tKey?: string
 }
 
-export function AutoTranslate({ children: message, namespace, tKey }: AutoTranslateProps) {
-    if (isClient) {
-        const locale = useLocale()
-        const [, slug] = window.location.pathname.replace(`/${locale}`, "").split("/")
-        namespace = namespace || slug || "index"
-    } else {
-        namespace = namespace ?? getCachedNamespace()
-    }
+export function AutoTranslate({ children: message, tKey, ...props }: AutoTranslateProps) {
+    const resolvedTKey = tKey ?? createMessageKey(message)
 
-    const t = useTranslations()
-    tKey = tKey ?? createMessageKey(message)
-    const translationKey = namespace ? `${namespace}.${tKey}` : tKey
-
-    return <>{t.has(translationKey) ? t(translationKey) : message}</>
+    return isClient ? (
+        <AutoTranslateClient tKey={resolvedTKey} {...props}>
+            {message}
+        </AutoTranslateClient>
+    ) : (
+        <AutoTranslateServer tKey={resolvedTKey} {...props}>
+            {message}
+        </AutoTranslateServer>
+    )
 }

@@ -37,7 +37,8 @@
                 "useTemplate": {
                     "fix": "safe",
                     "level": "warn"
-                }
+                },
+                "useNodejsImportProtocol": "off"
             },
             "correctness": {
                 "noUnusedImports": "info"
