@@ -7,7 +7,10 @@
     "types": "dist/index.d.ts",
     "exports": {
         ".": "./dist/index.js",
-        "./next-intl": "./dist/next-intl.js"
+        "./server": "./dist/server.js",
+        "./types": "./dist/types.js",
+        "./next-intl": "./dist/next-intl.js",
+        "./next-intl/server": "./dist/next-intl/server.js"
     },
     "files": ["src", "dist"],
     "scripts": {
@@ -37,5 +40,8 @@
         "react": ">=18.0.0",
         "react-dom": ">=18.0.0"
     },
-    "packageManager": "pnpm@10.8.1"
+    "packageManager": "pnpm@10.8.1",
+    "dependencies": {
+        "next": "^15.3.2"
+    }
 }

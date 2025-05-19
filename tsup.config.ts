@@ -5,7 +5,10 @@ export default defineConfig((env) => {
     return {
         entry: {
             index: "./src/index.ts",
-            "next-intl": "./src/next-intl.ts"
+            server: "./src/server.ts",
+            types: "./src/types.ts",
+            "next-intl": "./src/next-intl.ts",
+            "next-intl/server": "./src/next-intl/server.ts"
         },
         format: ["esm", "cjs"],
         splitting: true,
