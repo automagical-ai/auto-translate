@@ -1,10 +1,16 @@
 "use client"
 
+import { useIsHydrated } from "../hooks/use-hydrated"
+
 interface TranslationToastProps {
     isLoading: boolean
 }
 
 export function TranslationToast({ isLoading }: TranslationToastProps) {
+    const isHydrated = useIsHydrated()
+
+    if (!isHydrated) return null
+
     return (
         <>
             <style>{`
