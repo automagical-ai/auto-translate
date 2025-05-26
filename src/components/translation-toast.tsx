@@ -1,29 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
-
 interface TranslationToastProps {
     isLoading: boolean
 }
 
 export function TranslationToast({ isLoading }: TranslationToastProps) {
-    const [isVisible, setIsVisible] = useState(false)
-
-    useEffect(() => {
-        if (isLoading) {
-            // Fade in when loading starts
-            setIsVisible(true)
-        } else if (isVisible) {
-            // Fade out when loading stops
-            const timer = setTimeout(() => {
-                setIsVisible(false)
-            }, 500) // Small delay before fading out
-            return () => clearTimeout(timer)
-        }
-    }, [isLoading, isVisible])
-
-    if (!isLoading && !isVisible) return null
-
     return (
         <>
             <style>{`
@@ -51,7 +32,7 @@ export function TranslationToast({ isLoading }: TranslationToastProps) {
                     border: "2px solid #222222",
                     boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.1)",
                     backgroundColor: "rgba(0, 0, 0, 0.8)",
-                    opacity: isVisible ? 1 : 0,
+                    opacity: isLoading ? 1 : 0,
                     transition: "opacity 0.25s ease-in-out"
                 }}
             >
